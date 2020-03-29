@@ -16,7 +16,7 @@
 NV_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-"0"}
 
 # Start TRTIS server 
-nvidia-docker run --rm -it \
+docker run --gpus all --rm -it \
    --shm-size=1g \
    --ulimit memlock=-1 \
    --ulimit stack=67108864 \

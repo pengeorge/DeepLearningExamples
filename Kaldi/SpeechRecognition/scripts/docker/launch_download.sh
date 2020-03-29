@@ -14,7 +14,8 @@
 # limitations under the License.
 
 # Start TRTIS server container for download - need some kaldi tools
-nvidia-docker run --rm \
+#nvidia-docker run --rm \
+docker run --gpus all --rm \
    --shm-size=1g \
    --ulimit memlock=-1 \
    --ulimit stack=67108864 \
