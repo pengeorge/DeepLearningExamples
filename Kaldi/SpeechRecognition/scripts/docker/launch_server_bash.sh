@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # Copyright (c) 2019 NVIDIA CORPORATION. All rights reserved.
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-docker run --rm -it \
-    --net=host \
-    --shm-size=1g \
-    --memory=2g \
-    --ulimit memlock=-1 \
-    --ulimit stack=67108864 \
-    -v $PWD/data:/data \
-    trtis_kaldi_client install/bin/kaldi_asr_parallel_client $@
+NV_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-"0"}
+
+# Start TRTIS server 
+# --net host
+#   use this option if proxy is needed
+docker run --gpus all \
+   --rm -it \
+   --shm-size=1g \
+   --ulimit memlock=-1 \
+   --ulimit stack=67108864 \
+   --memory=12g \
+   -p8000:8000 \
+   -p8001:8001 \
+   -p8002:8002 \
+   --name trt_server_asr \
+   -e NVIDIA_VISIBLE_DEVICES=$NV_VISIBLE_DEVICES \
+   -v $PWD/data:/data \
+   -v $PWD/model-repo:/mnt/model-repo \
+   trtis_kaldi_server /bin/bash

@@ -20,6 +20,7 @@ docker run --gpus all --rm -it \
    --shm-size=1g \
    --ulimit memlock=-1 \
    --ulimit stack=67108864 \
+   --memory=12g \
    -p8000:8000 \
    -p8001:8001 \
    -p8002:8002 \
